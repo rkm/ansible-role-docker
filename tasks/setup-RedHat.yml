@@ -24,9 +24,12 @@
   ini_file:
     dest: '/etc/yum.repos.d/docker-{{ docker_edition }}.repo'
     section: 'docker-{{ docker_edition }}-edge'
-    option: enabled
-    value: '{{ docker_yum_repo_enable_edge }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
     mode: 0644
+  with_items:
+    - {option: name, value: 'docker-{{ docker_edition }}-edge'}
+    - {option: enabled, value: '{{ docker_yum_repo_enable_edge }}'}
 
 - name: Configure Docker Test repo.
   ini_file:
